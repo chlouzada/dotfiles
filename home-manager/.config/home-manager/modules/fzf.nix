@@ -30,5 +30,12 @@
         return $ret
       '';
     };
+    
+    interactiveShellInit =
+      # FZF
+      ''
+        echo asd
+      '';
+
   };
 }
