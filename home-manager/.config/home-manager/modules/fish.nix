@@ -146,23 +146,26 @@
       _fzf_preview_file = ''
         set -f file_path $argv
 
-        set -l target_path (realpath "$file_path")
+        if test -L "$file_path"
+            set -l target_path (realpath "$file_path")
 
-        set_color yellow
-        echo "'$file_path' is a symlink to '$target_path'."
-        set_color normal
+            set_color yellow
+            echo "'$file_path' is a symlink to '$target_path'."
+            set_color normal
 
-        _fzf_preview_file "$target_path"
-        if set --query fzf_preview_file_cmd
-            eval "$fzf_preview_file_cmd '$file_path'"
-        else
-            bat --style=numbers --color=always "$file_path"
-        end
-        if set --query fzf_preview_dir_cmd
-            eval "$fzf_preview_dir_cmd '$file_path'"
-        else
-            command ls -A -F "$file_path"
-        end
+            _fzf_preview_file "$target_path"
+        else if test -f "$file_path"
+            if set --query fzf_preview_file_cmd
+                eval "$fzf_preview_file_cmd '$file_path'"
+            else
+                bat --style=numbers --color=always "$file_path"
+            end
+        else if test -d "$file_path"
+            if set --query fzf_preview_dir_cmd
+                eval "$fzf_preview_dir_cmd '$file_path'"
+            else
+                command ls -A -F "$file_path"
+            end
         else if test -c "$file_path"
             _fzf_report_file_type "$file_path" "character device file"
         else if test -b "$file_path"
