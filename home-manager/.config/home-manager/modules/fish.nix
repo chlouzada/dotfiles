@@ -5,7 +5,7 @@
   programs.fish = {
     enable = true;
     interactiveShellInit =
-      # FZF
+      ## fzf
       ''
         bind \e\cf _fzf_search_dir
         bind \e\cs _fzf_search_git_status
@@ -16,7 +16,7 @@
     };
 
     shellAbbrs = {
-      # nix
+      ## nix
       hms = "home-manager switch";
     };
 
