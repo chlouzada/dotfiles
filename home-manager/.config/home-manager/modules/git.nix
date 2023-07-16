@@ -4,7 +4,7 @@
   home.packages = [ pkgs.git ];
   programs.git = {
     enable = true;
-    userName = "JohnDoe";
-    userEmail = "JohnDoe@JohnDoe.com"; 
+    userName = "chlouzada";
+    userEmail = "chlouzada@gmail.com"; 
   };
 }
