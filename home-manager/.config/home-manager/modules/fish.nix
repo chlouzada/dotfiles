@@ -10,13 +10,16 @@
         bind \e\cf _fzf_search_dir
         bind \e\cs _fzf_search_git_status
       '';
+    
     shellAliases = {
       sl = "ls -la";
     };
+
     shellAbbrs = {
       # nix
       hms = "home-manager switch";
     };
+
     functions = {
       _fzf_report_diff_type = {
         argumentNames = "diff_type";
@@ -103,6 +106,7 @@
 
         commandline --function repaint
       '';
+
       _fzf_search_dir = ''
         set -f fd_cmd (command -v fdfind || command -v fd  || echo "fd")
         set -f --append fd_cmd --color=always $fzf_fd_opts
@@ -128,6 +132,7 @@
 
         commandline --function repaint
       '';
+
       _fzf_wrapper = ''
         set -f --export SHELL (command --search fish)
 
@@ -137,6 +142,7 @@
 
         fzf $argv
       '';
+      
       _fzf_preview_file = ''
         set -f file_path $argv
 

@@ -3,10 +3,10 @@
 {
   home.packages = [ pkgs.alacritty ];
   programs.alacritty = {
-  enable = true;
+    enable = true;
     settings = {
       # font.size = 11;
-      shell.program = "/usr/local/bin/fish";
+      # shell.program = "/usr/local/bin/fish";
     };
   };
 }
