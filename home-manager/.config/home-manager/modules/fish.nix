@@ -7,8 +7,8 @@
     interactiveShellInit =
       # FZF
       ''
-        bind \ee _fzf_search_dir
         bind \e\cf _fzf_search_dir
+        bind \e\cs _fzf_search_git_status
       '';
     shellAliases = {
       sl = "ls -la";
@@ -18,6 +18,91 @@
       hms = "home-manager switch";
     };
     functions = {
+      _fzf_report_diff_type = {
+        argumentNames = "diff_type";
+        body = ''
+          set -f repeat_count (math 2 + (string length $diff_type))
+          set -f line (string repeat --count $repeat_count ─)
+          # set -f top_border ╭$line╮
+          # set -f btm_border ╰$line╯
+
+          # TODO: color according to diff_type
+          set_color yellow
+          echo $top_border
+          # echo "│ $diff_type │"
+          echo "$diff_type"
+          echo $btm_border
+          set_color normal
+        '';
+      };
+
+      _fzf_preview_changed_file = {
+        argumentNames = "path_status";
+        body = ''
+          set -f path (string unescape (string sub --start 4 $path_status))
+          set -f index_status (string sub --length 1 $path_status)
+          set -f working_tree_status (string sub --start 2 --length 1 $path_status)
+
+          set -f diff_opts --color=always
+
+          if test $index_status = '?'
+              _fzf_report_diff_type Untracked
+              _fzf_preview_file $path
+          else if contains {$index_status}$working_tree_status DD AU UD UA DU AA UU
+              _fzf_report_diff_type Unmerged
+              git diff $diff_opts -- $path
+          else
+              if test $index_status != " "
+                  _fzf_report_diff_type Staged
+
+                  if test $index_status = R
+                      set -f orig_and_new_path (string split --max 1 -- ' -> ' $path)
+                      git diff --staged $diff_opts -- $orig_and_new_path[1] $orig_and_new_path[2]
+                      set path $orig_and_new_path[2]
+                  else
+                      git diff --staged $diff_opts -- $path
+                  end
+              end
+
+              if test $working_tree_status != ' '
+                  _fzf_report_diff_type Unstaged
+                  git diff $diff_opts -- $path
+              end
+          end
+        '';
+      };
+
+      _fzf_search_git_status = ''
+        if not git rev-parse --git-dir >/dev/null 2>&1
+          echo '_fzf_search_git_status: Not in a git repository.' >&2
+        else
+            set -f selected_paths (
+                git -c color.status=always status --short |
+                _fzf_wrapper --ansi \
+                    --multi \
+                    --prompt="Search Git Status> " \
+                    --query=(commandline --current-token) \
+                    --preview='_fzf_preview_changed_file {}' \
+                    --nth="2.." \
+                    $fzf_git_status_opts
+            )
+            if test $status -eq 0
+                set -f cleaned_paths
+
+                for path in $selected_paths
+                    if test (string sub --length 1 $path) = R
+                        set --append cleaned_paths (string split -- "-> " $path)[-1]
+                    else
+                        set --append cleaned_paths (string sub --start=4 $path)
+                    end
+                end
+
+                commandline --current-token --replace -- (string join ' ' $cleaned_paths)
+            end
+        end
+
+        commandline --function repaint
+      '';
       _fzf_search_dir = ''
         set -f fd_cmd (command -v fdfind || command -v fd  || echo "fd")
         set -f --append fd_cmd --color=always $fzf_fd_opts
@@ -51,7 +136,7 @@
         end
 
         fzf $argv
-        '';
+      '';
       _fzf_preview_file = ''
         set -f file_path $argv
 
