@@ -1,3 +1,3 @@
 ```
-stow * -t ~
+stow home-manager -t ~
 ```
