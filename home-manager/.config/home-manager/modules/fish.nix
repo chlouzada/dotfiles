@@ -12,11 +12,11 @@
       '';
     
     shellAliases = {
-      sl = "ls -la";
+      # sl = "ls -la";
     };
 
     shellAbbrs = {
-      ## nix
+      ls = "ls -la";
       hms = "home-manager switch";
     };
 
@@ -176,6 +176,28 @@
             _fzf_report_file_type "$file_path" "named pipe"
         else
             echo "$file_path doesn't exist." >&2
+        end
+      '';
+
+      _node_installer = ''
+        set -f is_installed (command -v node)
+
+        if test -z $is_installed
+          echo "node not installed, installing now..."
+          sudo pacman -S nodejs npm --noconfirm
+        else
+          echo "node already installed"
+        end
+      '';
+
+      _node_uninstaller = ''
+        set -f is_installed (command -v node)
+
+        if test -z $is_installed
+          echo "node not installed"
+        else
+          echo "uninstalling nodejs now..."
+          sudo pacman -R nodejs npm --noconfirm
         end
       '';
     };
