@@ -9,6 +9,8 @@
       ''
         bind \e\cf _fzf_search_dir
         bind \e\cs _fzf_search_git_status
+
+        _asdf_init
       '';
     
     shellAliases = {
@@ -21,6 +23,15 @@
     };
 
     functions = {
+      _asdf_init = ''
+        set -f is_installed (command -v asdf)
+
+        if test -n $is_installed
+          . $HOME/.nix-profile/share/asdf-vm/asdf.fish
+          . $HOME/.nix-profile/share/asdf-vm/completions/asdf.fish
+        end
+      '';
+
       _fzf_report_diff_type = {
         argumentNames = "diff_type";
         body = ''
@@ -178,29 +189,6 @@
             echo "$file_path doesn't exist." >&2
         end
       '';
-
-      _node_installer = ''
-        set -f is_installed (command -v node)
-
-        if test -z $is_installed
-          echo "node not installed, installing now..."
-          sudo pacman -S nodejs npm --noconfirm
-        else
-          echo "node already installed"
-        end
-      '';
-
-      _node_uninstaller = ''
-        set -f is_installed (command -v node)
-
-        if test -z $is_installed
-          echo "node not installed"
-        else
-          echo "uninstalling nodejs now..."
-          sudo pacman -R nodejs npm --noconfirm
-        end
-      '';
     };
-
   };
 }
