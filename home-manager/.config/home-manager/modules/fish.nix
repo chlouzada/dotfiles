@@ -133,7 +133,7 @@
             set -f file_paths_selected $unescaped_exp_token($fd_cmd 2>/dev/null | _fzf_wrapper $fzf_arguments)
         else
             set --prepend fzf_arguments --prompt="Search Directory> " --query="$unescaped_exp_token" --preview='_fzf_preview_file {}'
-            set -f file_paths_selected ($fd_cmd 2>/dev/null | _fzf_wrapper $fzf_arguments)
+            set -f file_paths_selected ($fd_cmd . $HOME 2>/dev/null | _fzf_wrapper $fzf_arguments)
         end
 
 
