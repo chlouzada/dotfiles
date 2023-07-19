@@ -1,12 +1,41 @@
-name: Create Archive
-on: [push]
+name: Tar and Release
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@master
-    - name: Archive Release
-      uses: thedoctor0/zip-release@0.7.1
-      with:
-        type: 'zip'
-        filename: 'release.zip'
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create tar file
+        run: |
+          tar -czf dotfiles.tar.gz .
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.sha }}
+          release_name: Release ${{ github.sha }}
+          body: |
+            This is an automatically generated release.
+          draft: false
+          prerelease: false
+
+      - name: Upload artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dotfiles.tar.gz
+          asset_name: dotfiles.tar.gz
+          asset_content_type: application/x-tar+gzip
