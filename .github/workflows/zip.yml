@@ -25,6 +25,9 @@ jobs:
           files: |
             dotfiles.tar.gz
 
+      - name: URL
+        run: echo "URL is ${{ steps.create_release.outputs.upload_url }}"
+
       - name: Upload artifact
         uses: actions/upload-release-asset@v1
         env:
