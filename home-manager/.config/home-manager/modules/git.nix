@@ -7,15 +7,5 @@
 
     userName = "chlouzada";
     userEmail = "chlouzada@gmail.com"; 
-
-    push = {
-      default = "current";
-      autoSetupRemote = true;
-    };
-
-    init = {
-      defaultBranch = "main";
-    };
-
   };
 }
