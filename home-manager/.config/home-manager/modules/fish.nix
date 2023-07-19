@@ -18,8 +18,10 @@
     };
 
     shellAbbrs = {
-      ls = "ls -la";
+      ls = "exa --group-directories-first --long --all";
       hms = "home-manager switch";
+      dskt = "cd \"/mnt/c/Users/chlou/OneDrive/Área de Trabalho/\"";
+      c = "code . &> /dev/null";
     };
 
     functions = {
