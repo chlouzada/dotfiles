@@ -14,15 +14,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Create tar file
-        run: |
-          tar -cvzf dotfiles.tar.gz --exclude=".*" .
-
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: true
           title: "Development Build"
-          files: |
-            dotfiles.tar.gz
