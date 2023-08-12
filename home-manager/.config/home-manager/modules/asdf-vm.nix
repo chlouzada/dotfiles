@@ -1,8 +1,11 @@
 { config, pkgs, ... }:
 
 {
+  programs.fzf = {
+    enable = true;
+  };
+
   home.packages = with pkgs; [
-    fzf
     asdf-vm
 
     (pkgs.writeShellScriptBin "asdfx" ''
