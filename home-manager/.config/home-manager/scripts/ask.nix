@@ -7,7 +7,7 @@
     (pkgs.writeShellScriptBin "ask" ''
       #!/bin/bash
 
-      TOKEN_FILE="$HOME/.config/ask"
+      TOKEN_FILE="$HOME/.ask_token"
 
       # Ensure the cfg file exists and contains a token
       if [ ! -f "$TOKEN_FILE" ]; then
@@ -41,7 +41,18 @@
       }")
         
       cmd=$(jq -r '.choices[0].message.content' <<< "$response")
-      echo $cmd
+
+      echo "Would you like to run this command? [Y/n]"
+      echo "$cmd"
+
+      read -r run
+
+      if [ "$run" = "n" ]; then
+        exit 0
+      fi
+
+      echo "Running command..."
+      eval "$cmd"
     '')
   ];
 }
