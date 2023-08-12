@@ -1,9 +1,20 @@
 { config, pkgs, ... }:
 
+let
+  importDirs = dir:
+    let
+      modulePaths = builtins.filter (str: builtins.substring 0 1 str != "_")
+        (builtins.attrNames (builtins.readDir dir));
+    in map (n: "${dir}/${n}") modulePaths;
+
+  moduleImports = importDirs ./modules;
+  scriptImports = importDirs ./scripts;
+
+  imports = moduleImports ++ scriptImports;
+in
 {
-  imports = map (n: "${./modules}/${n}")
-    (builtins.filter (str: builtins.substring 0 1 str != "_")
-      (builtins.attrNames (builtins.readDir ./modules)));
+  # read all modules
+  imports = imports;
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
