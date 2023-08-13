@@ -1,3 +1,3 @@
 ```
-stow home-manager -t ~
+stow home-manager nvim -t ~
 ```
