@@ -2,8 +2,6 @@
 
 {
   home.packages = with pkgs; [
-    jq
-
     (pkgs.writeShellScriptBin "ask" ''
       #!/bin/bash
 
@@ -26,7 +24,7 @@
       }
 
       system=$(get_system_prompt "$1")
-      system_json=$(jq -Rs '.' <<< "$system")
+      system_json=$(${jq}/bin/jq -Rs '.' <<< "$system")
 
       response=$(curl -X POST "https://api.openai.com/v1/chat/completions" \
         -s \
@@ -40,7 +38,7 @@
           ]
       }")
         
-      cmd=$(jq -r '.choices[0].message.content' <<< "$response")
+      cmd=$(${jq}/bin/jq -r '.choices[0].message.content' <<< "$response")
 
       echo "Would you like to run this command? [Y/n]"
       echo "$cmd"

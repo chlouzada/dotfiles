@@ -2,11 +2,9 @@
 
 {
   home.packages = with pkgs; [
-    jq
-
     (pkgs.writeShellScriptBin "dev" ''
       function js() {
-        dependencies=$(jq -r '.dependencies + .devDependencies | keys[]' package.json)
+        dependencies=$(${jq}/bin/jq -r '.dependencies + .devDependencies | keys[]' package.json)
 
         list=$(npm list --depth=0 -s)
         mismatch=false
