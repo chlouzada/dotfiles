@@ -10,15 +10,18 @@
 
         list=$(npm list --depth=0 -s)
         mismatch=false
+        mismatched_dependencies=""
         for dependency in $dependencies; do
           if echo "$list" | grep -q "$dependency@[^ ]\+\s\+invalid" || echo $list | grep -q "UNMET DEPENDENCY $dependency@"; then
             mismatch=true
+            mismatched_dependencies="$mismatched_dependencies $dependency"
           fi
         done
         if [ "$mismatch" = true ]; then
           # prompt Y/n
           echo "There are mismatches between package.json and installed packages."
-          echo "Would you like to install the missing packages? (Y/n)"
+          echo $mismatched_dependencies
+          echo "Would you like to install? (Y/n)"
           read -r answer 
 
           if [ "$answer" = "n" ]; then
