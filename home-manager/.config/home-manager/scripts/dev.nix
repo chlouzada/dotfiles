@@ -6,8 +6,6 @@
 
     (pkgs.writeShellScriptBin "dev" ''
       function js() {
-        code . &> /dev/null
-
         dependencies=$(jq -r '.dependencies + .devDependencies | keys[]' package.json)
 
         list=$(npm list --depth=0 -s)
@@ -18,10 +16,23 @@
           fi
         done
         if [ "$mismatch" = true ]; then
+          # prompt Y/n
           echo "There are mismatches between package.json and installed packages."
+          echo "Would you like to install the missing packages? (Y/n)"
+          read -r answer 
+
+          if [ "$answer" = "n" ]; then
+            code . &> /dev/null
+            exit 0
+          fi
+
+          echo "Installing missing packages..."
           npm install
         fi
 
+        code . &> /dev/null
+
+        echo "Starting..."
         npm run dev
       }
 
