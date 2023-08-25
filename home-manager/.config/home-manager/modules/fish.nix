@@ -12,7 +12,6 @@
         bind \e\cs _fzf_search_git_status
 
         _asdf_init
-        _npm_init
       '';
     
     shellAliases = {
@@ -21,31 +20,18 @@
 
     shellAbbrs = {
       ls = "exa --group-directories-first --long --all";
-      hms = "home-manager switch -b backup";
-      desktop = "cd \"/mnt/c/Users/chlou/OneDrive/Área de Trabalho/\"";
+      hms = "home-manager switch";
+      dskt = "cd \"/mnt/c/Users/chlou/OneDrive/Área de Trabalho/\"";
       c = "code . &> /dev/null";
     };
 
     functions = {
       _asdf_init = ''
-        set -f is_asdf_installed (command -v asdf)
+        set -f is_installed (command -v asdf)
 
-        if test -n $is_asdf_installed
+        if test -n $is_installed
           . $HOME/.nix-profile/share/asdf-vm/asdf.fish
           . $HOME/.nix-profile/share/asdf-vm/completions/asdf.fish
-        end
-      '';
-
-      _npm_init = ''
-        set -f is_npm_installed (command -v npm)
-
-        if test -n $is_npm_installed
-          mkdir -p "~/.npm-packages"
-          npm config set prefix "~/.npm-packages"
-          
-          set NPM_PACKAGES "$HOME/.npm-packages"
-          set PATH $PATH $NPM_PACKAGES/bin
-          set MANPATH $NPM_PACKAGES/share/man $MANPATH  
         end
       '';
 
