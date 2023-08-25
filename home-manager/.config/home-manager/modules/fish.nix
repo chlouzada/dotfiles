@@ -11,7 +11,10 @@
         bind \e\cf _fzf_search_dir
         bind \e\cs _fzf_search_git_status
 
-        _asdf_init
+        if test -n (command -v asdf)
+          . $HOME/.nix-profile/share/asdf-vm/asdf.fish
+          . $HOME/.nix-profile/share/asdf-vm/completions/asdf.fish
+        end
       '';
     
     shellAliases = {
@@ -26,15 +29,6 @@
     };
 
     functions = {
-      _asdf_init = ''
-        set -f is_installed (command -v asdf)
-
-        if test -n $is_installed
-          . $HOME/.nix-profile/share/asdf-vm/asdf.fish
-          . $HOME/.nix-profile/share/asdf-vm/completions/asdf.fish
-        end
-      '';
-
       _fzf_report_diff_type = {
         argumentNames = "diff_type";
         body = ''

@@ -1,10 +1,22 @@
-# Stow Dotfiles
+# Dotfiles
+
+## Stow Dotfiles
+
+### Requirements
+
+- Stow
 
 ```
 stow home-manager nvim -t ~
 ```
 
-# Home Manager Install Script
+## Home Manager Install Script
+
+### Requirements
+
+- Nix
+
+### Script
 
 ```
 #!/bin/sh
