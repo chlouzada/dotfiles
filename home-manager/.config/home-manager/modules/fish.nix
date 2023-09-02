@@ -18,7 +18,7 @@
       '';
     
     shellAliases = {
-      # sl = "ls -la";
+      s = "cd ..";
     };
 
     shellAbbrs = {
