@@ -84,6 +84,11 @@ in
     # EDITOR = "code";
   };
 
+  nixpkgs.config = {
+    allowUnfree = true;
+    # allowUnsupportedSystem = true;
+  };
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
