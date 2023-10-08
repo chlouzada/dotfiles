@@ -9,8 +9,9 @@ let
 
   moduleImports = importDirs ./modules;
   scriptImports = importDirs ./scripts;
+  unixImports = importDirs ./unix;
 
-  imports = moduleImports ++ scriptImports;
+  imports = moduleImports ++ scriptImports ++ unixImports;
 in
 {
   # read all modules
@@ -44,6 +45,7 @@ in
     zip
     unzip
     apacheHttpd
+    # curl-impersonate
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
