@@ -11,7 +11,10 @@ let
   scriptImports = importDirs ./scripts;
   unixImports = importDirs ./unix;
 
-  imports = moduleImports ++ scriptImports ++ unixImports;
+  osreleaseContents = builtins.readFile "/proc/sys/kernel/osrelease";
+  isWSL = builtins.match ".*WSL2.*" osreleaseContents != null;
+  
+  imports = moduleImports ++ scriptImports  ++ (if isWSL then [] else unixImports);
 in
 {
   # read all modules
