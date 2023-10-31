@@ -8,7 +8,7 @@
         mkdir -p ~/.playground/.vscode
 
         echo "{\"deno.enable\": true,\"deno.lint\": true,\"deno.unstable\": true}" > ~/.playground/.vscode/settings.json
-        echo "{\"tasks\": {\"dev\": \"deno run --watch main.ts\"}}" > ~/.playground/deno.jsonc
+        echo "{\"tasks\": {\"dev\": \"deno run --allow-all --watch main.ts\"}}" > ~/.playground/deno.jsonc
         echo "import moment from 'npm:moment'
 export function add(a: number, b: number): number {
   return a + b;
