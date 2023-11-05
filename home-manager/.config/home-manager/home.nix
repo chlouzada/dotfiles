@@ -44,7 +44,6 @@ in
     nixfmt
     gh
     ripgrep
-    youtube-dl
     zip
     unzip
     apacheHttpd
