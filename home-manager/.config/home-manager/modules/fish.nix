@@ -117,7 +117,7 @@
 
       _fzf_search_dir = ''
         set -f fd_cmd (command -v fdfind || command -v fd  || echo "fd")
-        set -f --append fd_cmd --color=always $fzf_fd_opts
+        set -f --append fd_cmd --color=always --maxdepth=2 $fzf_fd_opts
 
         set -f fzf_arguments --multi --ansi $fzf_dir_opts $fzf_directory_opts
         set -f token (commandline --current-token)
