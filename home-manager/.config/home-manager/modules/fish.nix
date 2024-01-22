@@ -25,6 +25,8 @@
       hms = "home-manager switch";
       dskt = "cd \"/mnt/c/Users/chlou/OneDrive/Área de Trabalho/\"";
       c = "code . &> /dev/null";
+      lgit = "lazygit";
+      ldocker = "lazydocker";
     };
 
     functions = {
