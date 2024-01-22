@@ -27,14 +27,19 @@
             exit 0
           fi
 
+          code . &> /dev/null
+
           echo "Installing missing packages..."
           npm install
+
+          echo "Starting..."
+          npm run dev
+        else
+          code . &> /dev/null
+
+          echo "Starting..."
+          npm run dev
         fi
-
-        code . &> /dev/null
-
-        echo "Starting..."
-        npm run dev
       }
 
       if [ -f package.json ]; then
