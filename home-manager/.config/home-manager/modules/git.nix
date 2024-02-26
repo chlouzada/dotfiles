@@ -15,7 +15,7 @@
     extraConfig = {
       init.defaultBranch = "main";
 
-      push.default = "simple".; 
+      push.default = "simple"; 
       push.autoSetupRemote = true;
 
       url."git@github.com:".pushInsteadOf = "https://github.com";
