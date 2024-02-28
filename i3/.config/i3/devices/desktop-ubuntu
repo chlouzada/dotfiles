@@ -1,5 +1,5 @@
 workspace 1 output DP-2
 workspace 2 output DP-4
 
-exec --no-startup-id xrandr --output DP-4 --mode 2560x1440 --rate 240 --primary
-exec --no-startup-id xrandr --output DP-2 --mode 1920x1080 --rate 144 --left-of DP-4 --rotate left
+# exec_always --no-startup-id xrandr --output DP-2 --mode 1920x1080 --rate 144 --rotate left --left-of DP-4 
+# exec_always --no-startup-id xrandr --output DP-4 --mode 2560x1440 --rate 240 --primary
