@@ -1,0 +1,2 @@
+exec_always --no-startup-id xinput  set-prop  9 libinput\ Tapping\ Enabled 1
+exec_always --no-startup-id xinput set-prop 9 libinput\ Natural\ Scrolling\ Enabled 1
