@@ -1,13 +1,7 @@
 # Dotfiles
 
-## Stow Dotfiles
-
-### Requirements
-
-- Stow
-
-```
-stow home-manager nvim -t ~
+```bash
+stow --adopt -t $HOME -d $HOME/dotfiles -S home-manager i3
 ```
 
 ## Home Manager Install Script
@@ -18,7 +12,7 @@ stow home-manager nvim -t ~
 
 ### Script
 
-```
+```bash
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 nix-channel --update
 nix-shell '<home-manager>' -A install
@@ -34,5 +28,5 @@ rm -rf $HOME/dotfiles-latest
 git clone https://github.com/chlouzada/dotfiles.git $HOME/dotfiles
 
 rm -rf $HOME/.config/home-manager
-stow -t $HOME -d $HOME/dotfiles -S home-manager
+stow --adopt -t $HOME -d $HOME/dotfiles -S home-manager i3
 ```
