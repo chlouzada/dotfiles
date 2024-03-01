@@ -190,4 +190,12 @@ bar {
         tray_output primary
 }
 
-include ~/.config/i3/base
+include ~/.config/i3/devices/`hostname`
+
+focus_follows_mouse no
+
+assign [class="discord"] $ws1
+
+exec --no-startup-id discord
+exec --no-startup-id brave-browser
+exec --no-startup-id clipit
