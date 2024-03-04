@@ -1,2 +1,23 @@
 exec_always --no-startup-id xinput  set-prop  9 libinput\ Tapping\ Enabled 1
 exec_always --no-startup-id xinput set-prop 9 libinput\ Natural\ Scrolling\ Enabled 1
+
+
+
+mode "brightness" {
+        bindsym 1 exec xrandr --output eDP-1 --brightness 0.1
+        bindsym 2 exec xrandr --output eDP-1 --brightness 0.2
+        bindsym 3 exec xrandr --output eDP-1 --brightness 0.3
+        bindsym 4 exec xrandr --output eDP-1 --brightness 0.4
+        bindsym 5 exec xrandr --output eDP-1 --brightness 0.5
+        bindsym 6 exec xrandr --output eDP-1 --brightness 0.6
+        bindsym 7 exec xrandr --output eDP-1 --brightness 0.7
+        bindsym 8 exec xrandr --output eDP-1 --brightness 0.8
+        bindsym 9 exec xrandr --output eDP-1 --brightness 0.9
+        bindsym 0 exec xrandr --output eDP-1 --brightness 1
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+Shift+b mode "brightness"
