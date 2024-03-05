@@ -198,7 +198,7 @@ assign [class="discord"] $ws1
 
 exec --no-startup-id discord
 exec --no-startup-id brave-browser
-exec --no-startup-id clipit
+exec --no-startup-id clipcatd # TODO: bind for clipcat-menu
 
 mode "(E)xit | (R)eboot | (S)leep | (P)oweroff | Boot into (W)indows" {
         bindsym e exit
