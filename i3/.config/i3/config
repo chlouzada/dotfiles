@@ -86,17 +86,15 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# split in horizontal orientation
-bindsym $mod+b split h
-
-# split in vertical orientation
+# split in horizontal/vertical orientation
 bindsym $mod+v split v
+bindsym $mod+b split h
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
+# bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
@@ -190,15 +188,10 @@ bar {
         tray_output primary
 }
 
+# load device specific config
 include ~/.config/i3/devices/`hostname`
 
 focus_follows_mouse no
-
-assign [class="discord"] $ws1
-
-exec --no-startup-id discord
-exec --no-startup-id brave-browser
-exec --no-startup-id clipcatd # TODO: bind for clipcat-menu
 
 mode "(E)xit | (R)eboot | (S)leep | (P)oweroff | Boot into (W)indows" {
         bindsym e exit
@@ -211,5 +204,24 @@ mode "(E)xit | (R)eboot | (S)leep | (P)oweroff | Boot into (W)indows" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-
 bindsym $mod+Shift+e mode "(E)xit | (R)eboot | (S)leep | (P)oweroff | Boot into (W)indows"
+
+# app affinity
+assign [class="discord"] $ws1
+
+# autostart
+exec --no-startup-id discord
+exec --no-startup-id brave-browser
+# autostart end
+
+# clipcat
+exec_always --no-startup-id clipcatd
+set $launcher-clipboard-insert clipcat-menu insert
+set $launcher-clipboard-remove clipcat-menu remove
+bindsym $mod+p exec $launcher-clipboard-insert
+bindsym $mod+o exec $launcher-clipboard-remove
+bindsym mod1+v exec clipcat-menu
+# clipcat end
+
+# screenshot selection to clipboard
+bindsym Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
