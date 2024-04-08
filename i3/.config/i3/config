@@ -206,14 +206,6 @@ mode "(E)xit | (R)eboot | (S)leep | (P)oweroff | Boot into (W)indows" {
 }
 bindsym $mod+Shift+e mode "(E)xit | (R)eboot | (S)leep | (P)oweroff | Boot into (W)indows"
 
-# app affinity
-assign [class="discord"] $ws1
-
-# autostart
-exec --no-startup-id discord
-exec --no-startup-id brave-browser
-# autostart end
-
 # clipcat
 exec_always --no-startup-id clipcatd
 set $launcher-clipboard-insert clipcat-menu insert
