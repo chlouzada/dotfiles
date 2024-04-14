@@ -20,6 +20,7 @@
 
       url."git@github.com:".pushInsteadOf = "https://github.com";
       url."git@github.com:".insteadOf = "gh:";
+      url."https://github.com/".insteadOf = "gh/:";
     };
   };
 }
