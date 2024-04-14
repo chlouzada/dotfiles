@@ -10,6 +10,8 @@
 
         bind \e\cf _fzf_search_dir
         bind \e\cs _fzf_search_git_status
+        
+        bind \e\cg lazygit
 
         if test -n (command -v asdf)
           . $HOME/.nix-profile/share/asdf-vm/asdf.fish
