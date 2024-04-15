@@ -1,0 +1,2 @@
+#!/bin/bash
+stow --adopt -t $HOME -d $HOME/dotfiles -S home-manager i3 clipcat
