@@ -51,6 +51,7 @@ in
     yt-dlp
     lazydocker
     jq
+    tldr
     # curl-impersonate
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
