@@ -62,6 +62,7 @@ in
     lazydocker
     jq
     tldr
+    asdf-vm
     # curl-impersonate
   ];
 
