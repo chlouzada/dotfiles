@@ -8,6 +8,11 @@
       ''
         set -g -x fish_greeting
 
+        set -Ux FOO bar
+        set -Ux ANDROID_HOME $HOME/Android/Sdk
+        fish_add_path $ANDROID_HOME/emulator
+        fish_add_path $ANDROID_HOME/platform-tools
+
         bind \e\cf _fzf_search_dir
         bind \e\cs _fzf_search_git_status
         

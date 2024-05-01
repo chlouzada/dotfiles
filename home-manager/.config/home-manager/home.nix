@@ -82,8 +82,6 @@ in
   };
 
   home.sessionVariables = {
-    PATH="/home/ch/.turso:$PATH";
-    # EDITOR = "code";
   };
 
   nixpkgs.config = {
