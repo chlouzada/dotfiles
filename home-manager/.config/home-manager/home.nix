@@ -63,6 +63,8 @@ in
     jq
     tldr
     asdf-vm
+    kitty
+    alacritty
     # curl-impersonate
   ];
 
@@ -82,6 +84,7 @@ in
   };
 
   home.sessionVariables = {
+  
   };
 
   nixpkgs.config = {
