@@ -10,6 +10,7 @@
     aliases = {
       co = "checkout";
       ci = "commit";
+      undo = "reset --soft HEAD^";
     };
 
     extraConfig = {

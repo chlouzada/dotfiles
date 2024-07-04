@@ -219,4 +219,4 @@ bindsym mod1+v exec clipcat-menu
 bindsym Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
 
 # enable click on tap
-xinput set-prop 10 350 1
+exec_always --no-startup-id xinput set-prop 10 350 1
