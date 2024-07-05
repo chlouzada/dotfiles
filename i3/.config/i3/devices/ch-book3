@@ -1,7 +1,5 @@
-exec_always --no-startup-id xinput  set-prop  9 libinput\ Tapping\ Enabled 1
-exec_always --no-startup-id xinput set-prop 9 libinput\ Natural\ Scrolling\ Enabled 1
-
-
+exec_always --no-startup-id xinput  set-prop  ELAN0B00:00\ 04F3:324D\ Touchpad libinput\ Tapping\ Enabled 1
+exec_always --no-startup-id xinput set-prop ELAN0B00:00\ 04F3:324D\ Touchpad libinput\ Natural\ Scrolling\ Enabled 1
 
 mode "brightness" {
         bindsym 1 exec xrandr --output eDP-1 --brightness 0.1

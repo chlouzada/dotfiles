@@ -217,6 +217,3 @@ bindsym mod1+v exec clipcat-menu
 
 # screenshot selection to clipboard
 bindsym Print exec --no-startup-id flameshot gui
-
-# enable click on tap
-exec_always --no-startup-id xinput set-prop 10 350 1
