@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     (pkgs.writeShellScriptBin "install" ''
-apps="vscode discord brave i3wm"
+apps="vscode discord brave i3wm picom"
 
 selected=$(printf "$apps" | tr ' '  '\n' |  fzf --cycle --layout=reverse --border --preview-window=wrap --marker="*" --multi --preview='echo {+} | tr " "  "\n"' --preview-label='[ To Install ]')
 
@@ -32,6 +32,9 @@ while IFS= read -r app; do
             echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list
             sudo apt update
             sudo apt install -qq i3
+            ;;
+        "picom")
+            echo TODO: 
             ;;
         *)
             echo "not impl"
