@@ -1,7 +1,7 @@
 # Dotfiles
 
 ```bash
-stow --adopt -t $HOME -d $HOME/dotfiles -S home-manager i3 clipcat picom
+stow --adopt -t $HOME -d $HOME/dotfiles -S home-manager i3 i3status clipcat picom
 ```
 
 ## Home Manager Install Script
@@ -28,5 +28,5 @@ rm -rf $HOME/dotfiles-latest
 git clone https://github.com/chlouzada/dotfiles.git $HOME/dotfiles
 
 rm -rf $HOME/.config/home-manager
-stow --adopt -t $HOME -d $HOME/dotfiles -S home-manager i3 clipcat picom
+stow --adopt -t $HOME -d $HOME/dotfiles -S home-manager i3 i3status clipcat picom
 ```

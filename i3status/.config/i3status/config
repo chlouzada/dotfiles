@@ -1,0 +1,29 @@
+general {
+    output_format = "i3bar"
+}
+
+order += "memory"
+order += "battery all"
+order += "disk /"
+order += "time"
+
+disk "/" {
+    format = "%avail"
+}
+
+battery all {
+        format = "%percentage %remaining"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 15
+}
+
+memory {
+        format = "%used"
+        threshold_degraded = "10%"
+        format_degraded = "MEMORY: %free"
+}
+
+tztime local {
+        format = "%Y-%m-%d %H:%M:%S"
+        hide_if_equals_localtime = true
+}
