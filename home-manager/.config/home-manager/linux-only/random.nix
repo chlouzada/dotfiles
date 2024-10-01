@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = with pkgs; [ clipcat rofi flameshot ];
+  home.packages = with pkgs; [ clipcat rofi flameshot nitrogen ];
 }
 

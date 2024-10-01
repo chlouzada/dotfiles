@@ -217,3 +217,7 @@ bindsym mod1+v exec clipcat-menu
 
 # screenshot selection to clipboard
 bindsym Print exec --no-startup-id flameshot gui
+
+bindsym $mod+Mod1+Return exec --no-startup-id google-chrome
+
+exec_always --no-startup-id nitrogen --restore
