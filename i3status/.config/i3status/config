@@ -8,7 +8,7 @@ order += "disk /"
 order += "time"
 
 disk "/" {
-    format = "%avail"
+    format = "%used (%percentage_used) / %total"
 }
 
 battery all {
