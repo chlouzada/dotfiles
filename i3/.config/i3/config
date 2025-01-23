@@ -186,7 +186,7 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3status
         tray_output primary
-        separator_symbol " || "
+        separator_symbol " & "
 }
 
 # load device specific config
