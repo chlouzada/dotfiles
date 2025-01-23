@@ -14,6 +14,7 @@ stow --adopt -t $HOME -d $HOME/dotfiles -S home-manager i3 i3status clipcat pico
 
 ```bash
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+nix-channel --add https://nixos.org/channels/nixos-unstable nixpkgs
 nix-channel --update
 nix-shell '<home-manager>' -A install
 
