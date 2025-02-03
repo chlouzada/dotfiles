@@ -10,7 +10,7 @@
     aliases = {
       co = "checkout";
       ci = "commit";
-      undo = "!f() { [[ \"$1\" == \"--hard\" ]] && git reset --hard HEAD~\${2:-1} || git reset --soft HEAD~\${1:-1}; }; f"
+      undo = "!f() { [[ \"\$1\" == \"--hard\" ]] && git reset --hard HEAD~\${2:-1} || git reset --soft HEAD~\${1:-1}; }; f";
     };
 
     extraConfig = {
