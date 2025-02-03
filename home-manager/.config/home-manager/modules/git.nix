@@ -10,7 +10,7 @@
     aliases = {
       co = "checkout";
       ci = "commit";
-      undo = "reset --soft HEAD^";
+      undo = "!f() { git reset --soft HEAD~\${1:-1}; }; f";
     };
 
     extraConfig = {
