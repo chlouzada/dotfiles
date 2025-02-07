@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     (pkgs.writeShellScriptBin "install" ''
-apps="vscode discord brave i3wm picom"
+apps="discord flameshot vscode brave i3wm picom"
 
 selected=$(printf "$apps" | tr ' '  '\n' |  fzf --cycle --layout=reverse --border --preview-window=wrap --marker="*" --multi --preview='echo {+} | tr " "  "\n"' --preview-label='[ To Install ]')
 
@@ -13,6 +13,9 @@ while IFS= read -r app; do
             wget -O /tmp/vscode.deb "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64"
             sudo apt install -qq /tmp/vscode.deb
             rm /tmp/vscode.deb
+            ;;
+        "flameshot")
+            sudo apt install -qq flameshot
             ;;
         "discord")
             wget -O /tmp/discord.deb "https://discord.com/api/download?platform=linux&format=deb"

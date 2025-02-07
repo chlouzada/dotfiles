@@ -6,4 +6,5 @@ exec --no-startup-id brave-browser
 workspace 1 output DP-2
 workspace 2 output DP-4
 
-exec --no-startup-id xrandr --output DP-2 --rotate right --mode 1920x1080 --rate 144 --left-of DP-4 --output DP-4 --mode 2560x1440 --rate 144 && sleep 3 && xrandr --output DP-4 --mode 2560x1440 --rate 240 --primary
+# exec --no-startup-id xrandr --output DP-2 --rotate right --mode 1920x1080 --rate 144 --left-of DP-4 --output DP-4 --mode 2560x1440 --rate 144 && sleep 3 && xrandr --output DP-4 --mode 2560x1440 --rate 240 --primary
+exec --no-startup-id xrandr --output DP-2 --rotate normal --mode 1920x1080 --rate 144 --left-of DP-4 --output DP-4 --mode 2560x1440 --rate 144 && sleep 3 && xrandr --output DP-4 --mode 2560x1440 --rate 240 --primary
