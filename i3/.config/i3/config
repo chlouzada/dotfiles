@@ -87,8 +87,8 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal/vertical orientation
-bindsym $mod+v split v
-bindsym $mod+b split h
+# bindsym $mod+v split v
+# bindsym $mod+b split h
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -214,6 +214,7 @@ set $launcher-clipboard-remove clipcat-menu remove
 bindsym $mod+p exec $launcher-clipboard-insert
 bindsym $mod+o exec $launcher-clipboard-remove
 bindsym mod1+v exec clipcat-menu
+bindsym $mod+v exec clipcat-menu
 # clipcat end
 
 # screenshot selection to clipboard
@@ -222,3 +223,4 @@ bindsym Print exec --no-startup-id flameshot gui
 bindsym $mod+Mod1+Return exec --no-startup-id google-chrome
 
 exec_always --no-startup-id nitrogen --restore
+
