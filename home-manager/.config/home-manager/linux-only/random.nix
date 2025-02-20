@@ -1,6 +1,13 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = with pkgs; [ clipcat rofi nitrogen ];
+  home.packages = with pkgs; [ 
+    clipcat
+    rofi
+    flameshot
+    nitrogen
+    mongodb-compass
+    insomnia
+  ];
 }
 
