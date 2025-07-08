@@ -31,11 +31,6 @@ in
       ";
     };
 
-    zoxide = {
-      enable = true;
-      enableFishIntegration = true;
-    };
-
     lazygit = {
       enable = true;
     };

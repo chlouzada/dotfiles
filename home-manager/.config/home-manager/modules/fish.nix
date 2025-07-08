@@ -34,7 +34,6 @@
       c = "code . &> /dev/null";
       lgit = "lazygit";
       ldocker = "lazydocker";
-      cd = "z";
     };
 
     functions = {
