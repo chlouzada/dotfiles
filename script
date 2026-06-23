@@ -1,6 +1,6 @@
 
 sudo apt install stow
-stow --adopt -t $HOME -d $HOME/dotfiles -S fish
+stow --adopt -t $HOME -d $HOME/dotfiles -S fish git
 
 sudo add-apt-repository ppa:fish-shell/release-4 -y
 sudo apt update
