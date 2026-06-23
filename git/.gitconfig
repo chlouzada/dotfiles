@@ -2,15 +2,18 @@
 	email = chlouzada@gmail.com
 	name = chlouzada
 
-[alias]
-    undo = "!f() { [[ "$1" == "--hard" ]] && git reset --hard HEAD~${2:-1} || git reset --soft HEAD~${1:-1}; }; f"
-
+[core]
+    fileMode = false
+    
 [init]
     defaultBranch = main
 
 [push]
     default = simple
     autoSetupRemote = true
+
+[alias]
+    undo = "!f() { [[ "$1" == "--hard" ]] && git reset --hard HEAD~${2:-1} || git reset --soft HEAD~${1:-1}; }; f"
 
 [url "git@github.com:"]
     pushInsteadOf = https://github.com
