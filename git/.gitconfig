@@ -2,9 +2,6 @@
 	email = chlouzada@gmail.com
 	name = chlouzada
 
-[core]
-    fileMode = false
-    
 [init]
     defaultBranch = main
 
@@ -30,3 +27,6 @@
 
 [url "git@gitlab.eurekka.technology/"]
     insteadOf = eurekka:
+
+[safe]
+	directory = ~/eurekka/*
