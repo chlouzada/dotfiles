@@ -1,11 +1,11 @@
 
-sudo apt install stow
+sudo apt install git stow
 stow --adopt -t $HOME -d $HOME/dotfiles -S fish git
 
 sudo add-apt-repository ppa:fish-shell/release-4 -y
 sudo apt update
 sudo apt fish -y
-sudo chsh -s /usr/bin/fish
+chsh -s /usr/bin/fish
 
 curl https://mise.run | sh
 mise use -g fzf rg jq lazygit node go jujutsu
