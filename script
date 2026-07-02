@@ -1,6 +1,8 @@
+#!/usr/bin/env bash
 
-sudo apt install git stow
-stow --adopt -t $HOME -d $HOME/dotfiles -S fish git
+sudo apt update
+sudo apt install git stow xinput
+stow --adopt -t $HOME -d $HOME/dotfiles -S fish git i3 i3status
 
 sudo add-apt-repository ppa:fish-shell/release-4 -y
 sudo apt update
@@ -8,4 +10,18 @@ sudo apt install fish -y
 chsh -s /usr/bin/fish
 
 curl https://mise.run | sh
-mise use -g fzf rg jq lazygit node go jujutsu
+~/.local/bin/mise use -g fzf rg jq lazygit node go jujutsu
+
+/usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2025.12.14_all.deb i3-keyring.deb SHA256:2c816fbd12ea4d84811818aed0ce3a5da589be1afa30833eb32abc1e4fe6349e
+sudo apt install ./i3-keyring.deb
+echo "deb [signed-by=/usr/share/keyrings/sur5r-keyring.gpg] http://debian.sur5r.net/i3/ $(grep '^VERSION_CODENAME=' /etc/os-release | cut -f2 -d=) universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list
+sudo apt update
+sudo apt install i3
+rm -f ./i3-keyring.deb
+
+f=codium.deb
+curl -L "$(curl -fsSL https://api.github.com/repos/VSCodium/vscodium/releases/latest | jq -r '.assets[] | select(.name|test("amd64\\.deb$")) | .browser_download_url' | head -1)" -o "$f" &&
+sudo apt install -y "./$f" &&
+rm -f "$f"
+
+#sudo apt install lightdm -y

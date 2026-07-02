@@ -8,22 +8,22 @@ order += "disk /"
 order += "time"
 
 disk "/" {
-    format = "%used (%percentage_used) / %total"
+    format = "DISK: %used (%percentage_used) / %total"
 }
 
 battery all {
-        format = "%percentage %remaining"
-        path = "/sys/class/power_supply/BAT%d/uevent"
-        low_threshold = 15
+    format = "BAT: %percentage (%remaining)"
+    path = "/sys/class/power_supply/BAT%d/uevent"
+    low_threshold = 15
 }
 
 memory {
-        format = "%used"
-        threshold_degraded = "10%"
-        format_degraded = "MEMORY: %free"
+    format = "RAM: %used"
+    threshold_degraded = "10%"
+    format_degraded = "RAM: %free livre"
 }
 
 tztime local {
-        format = "%Y-%m-%d %H:%M:%S"
-        hide_if_equals_localtime = true
+    format = "%Y-%m-%d %H:%M:%S"
+    hide_if_equals_localtime = true
 }
