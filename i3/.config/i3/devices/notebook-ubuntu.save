@@ -20,7 +20,5 @@ mode "brightness" {
 
 bindsym $mod+Shift+b mode "brightness"
 
-exec --no-startup-id picom -b
-
-
-
+exec --no-startup-id picom Q
+Q

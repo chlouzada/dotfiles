@@ -8,12 +8,14 @@ if status is-interactive
 
     alias s="cd .."
     alias fd="fdfind"
-    alias c="editor ."
+    #alias c="editor ."
 
     abbr -a lg lazygit
     abbr -a ldock lazydocker
-    # abbr -a c "code ."
+    abbr -a c "code ."
     # abbr -a c "codium ."
+    abbr -a i "npm run install"
+    abbr -a b "npm run build"
     abbr -a d "npm run dev"
     abbr -a gsub "git submodule update --init --recursive"
 
