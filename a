@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Atualiza o sistema
+sudo pacman -Syu --noconfirm
+
+# Pacotes oficiais
+sudo pacman -S --needed --noconfirm \
+    base-devel \
+    git \
+    stow \
+    curl \
+    fish \
+    jq \
+    xorg-xinput \
+    i3-wm \
+    i3status
+
+# Aplica os dotfiles
+stow --adopt -t "$HOME" -d "$HOME/dotfiles" -S fish git i3 i3status
+
+# Define Fish como shell padrão
+chsh -s /usr/bin/fish
+
+# Instala o mise
+curl https://mise.run | sh
+
+# Disponibiliza o mise nesta execução
+export PATH="$HOME/.local/bin:$PATH"
+
+# Instala ferramentas via mise
+mise use -g \
+    fzf \
+    ripgrep \
+    jq \
+    lazygit \
+    node \
+    go \
+    jujutsu \
+    clang \
+    make
+
+# Instala o yay (AUR helper), se necessário
+if ! command -v yay >/dev/null 2>&1; then
+    git clone https://aur.archlinux.org/yay.git /tmp/yay
+    (
+        cd /tmp/yay
+        makepkg -si --noconfirm
+    )
+fi
+
+# Instala programas do AUR
+yay -S --needed --noconfirm \
+    google-chrome \
+    visual-studio-code-bin
+
+# Instala o Tailscale
+curl -fsSL https://tailscale.com/install.sh | sh
+
+echo
+echo "========================================"
+echo "Instalação concluída!"
+echo "Reinicie a sessão para usar o Fish."
+echo "========================================"

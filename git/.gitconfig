@@ -25,7 +25,7 @@
 [url "https://gitlab.com/"]
     insteadOf = gl/:
 
-[url "git@gitlab.eurekka.technology/"]
+[url "git@github.com:Eurekka-Projects/"]
     insteadOf = eurekka:
 
 [safe]
