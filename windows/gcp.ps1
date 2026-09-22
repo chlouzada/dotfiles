@@ -2,7 +2,16 @@
 param()
 
 $ErrorActionPreference = 'Stop'
-$cacheFile = Join-Path (Get-Location) '.gcp-cache.json'
+$scriptDirectory = if ($PSScriptRoot) {
+    $PSScriptRoot
+}
+elseif ($PSCommandPath) {
+    Split-Path -Parent $PSCommandPath
+}
+else {
+    (Get-Location).Path
+}
+$cacheFile = Join-Path $scriptDirectory 'gcp-cache.json'
 $firebaseCommand = $null
 
 function Invoke-FirebaseJson {
@@ -11,17 +20,57 @@ function Invoke-FirebaseJson {
         [string[]] $Arguments
     )
 
-    $output = & $script:firebaseCommand @Arguments
-    if ($LASTEXITCODE -ne 0) {
-        throw "firebase $($Arguments -join ' ') failed with code $LASTEXITCODE."
-    }
+    $process = $null
 
-    $json = $output -join [Environment]::NewLine
-    if ([string]::IsNullOrWhiteSpace($json)) {
-        throw "firebase $($Arguments -join ' ') did not return JSON."
-    }
+    try {
+        $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+        $startInfo.FileName = $script:firebaseCommand
+        $startInfo.Arguments = ($Arguments | ForEach-Object { '"' + ($_ -replace '"', '\"') + '"' }) -join ' '
+        $startInfo.UseShellExecute = $false
+        $startInfo.CreateNoWindow = $true
+        $startInfo.RedirectStandardOutput = $true
+        $startInfo.RedirectStandardError = $true
 
-    return $json | ConvertFrom-Json
+        $process = New-Object System.Diagnostics.Process
+        $process.StartInfo = $startInfo
+        [void] $process.Start()
+        $outputTask = $process.StandardOutput.ReadToEndAsync()
+        $stderrTask = $process.StandardError.ReadToEndAsync()
+
+        $spinner = @('|', '/', '-', '\')
+        $spinnerIndex = 0
+        while (-not $process.HasExited) {
+            Write-Host ("`b{0}" -f $spinner[$spinnerIndex]) -NoNewline -ForegroundColor DarkGray
+            $spinnerIndex = ($spinnerIndex + 1) % $spinner.Count
+            Start-Sleep -Milliseconds 100
+        }
+
+        $process.WaitForExit()
+        $exitCode = $process.ExitCode
+        $json = $outputTask.Result
+        $stderr = $stderrTask.Result.Trim()
+
+        if ($exitCode -ne 0) {
+            $details = if ([string]::IsNullOrWhiteSpace($stderr)) {
+                'Nenhuma mensagem adicional foi retornada pelo Firebase.'
+            }
+            else {
+                "`n$stderr"
+            }
+            throw "firebase $($Arguments -join ' ') failed with code $exitCode.$details"
+        }
+
+        if ([string]::IsNullOrWhiteSpace($json)) {
+            throw "firebase $($Arguments -join ' ') did not return JSON."
+        }
+
+        return $json.Trim() | ConvertFrom-Json
+    }
+    finally {
+        if ($null -ne $process) {
+            $process.Dispose()
+        }
+    }
 }
 
 function Test-PropertyValue {
@@ -68,9 +117,16 @@ function Get-DashboardUrl {
         [psobject] $Function
     )
 
-    $functionId = $Function.id.ToLowerInvariant()
     if ($Function.platform -eq 'gcfv1') {
-        return "https://console.cloud.google.com/functions/details/$($Function.region)/$functionId?project=$ProjectId"
+        $functionId = [string] $Function.id
+        return "https://console.cloud.google.com/functions/details/$($Function.region)/$($functionId)?project=$ProjectId"
+    }
+
+    $functionId = if (Test-PropertyValue $Function 'runServiceId') {
+        [string] $Function.runServiceId
+    }
+    else {
+        [string] $Function.id
     }
 
     return "https://console.cloud.google.com/run/detail/$($Function.region)/$functionId/observability/metrics?project=$ProjectId"
@@ -122,34 +178,42 @@ function Remove-EnvironmentVariables {
 }
 
 function Refresh-Cache {
-    Write-Host 'Atualizando...'
+    $startedAt = Get-Date
+    Write-Host 'Atualizando cache...  ' -NoNewline -ForegroundColor DarkGray
 
-    $projectsResponse = Invoke-FirebaseJson @('projects:list', '--json')
-    $projects = @($projectsResponse.result)
-    $results = @()
+    try {
+        $projectsResponse = Invoke-FirebaseJson @('projects:list', '--json')
+        $projects = @($projectsResponse.result)
+        $results = @()
 
-    foreach ($project in $projects) {
-        $functionsResponse = Invoke-FirebaseJson @(
-            'functions:list'
-            '--project'
-            [string] $project.projectId
-            '--json'
-        )
-        $functions = foreach ($function in @($functionsResponse.result)) {
-            Remove-EnvironmentVariables $function
+        foreach ($project in $projects) {
+            $functionsResponse = Invoke-FirebaseJson @(
+                'functions:list'
+                '--project'
+                [string] $project.projectId
+                '--json'
+            )
+            $functions = foreach ($function in @($functionsResponse.result)) {
+                Remove-EnvironmentVariables $function
+            }
+            $results += [pscustomobject]@{
+                result = @($functions)
+            }
         }
-        $results += [pscustomobject]@{
-            result = @($functions)
+
+        $cache = [pscustomobject]@{
+            projects = $projects
+            functions = $results
         }
-    }
 
-    $cache = [pscustomobject]@{
-        projects = $projects
-        functions = $results
-    }
+        $cache | ConvertTo-Json -Depth 20 | Set-Content -Path $cacheFile -Encoding UTF8
 
-    $cache | ConvertTo-Json -Depth 20 | Set-Content -Path $cacheFile -Encoding UTF8
-    return $cache
+        return $cache
+    }
+    catch {
+        Write-Host ' falhou.' -ForegroundColor Red
+        throw
+    }
 }
 
 function Get-Cache {
@@ -231,9 +295,17 @@ if (-not $selectionData.functionsByOption.ContainsKey($option)) {
 
 $function = $selectionData.functionsByOption[$option]
 $projectId = ($option -split "`t", 2)[0]
-Write-Output "Function: $option"
-Write-Output "Dashboard: $(Get-DashboardUrl $projectId $function)"
+$functionType = Get-FunctionType $function
+$functionId = [string] $function.id
+$dashboardUrl = Get-DashboardUrl $projectId $function
+
+Write-Host ''
+Write-Host ("Project: {0}" -f $projectId) -ForegroundColor Cyan
+Write-Host ("Name:    {0}" -f $functionId) -ForegroundColor Cyan
+Write-Host ("Type:    {0}" -f $functionType) -ForegroundColor Cyan
+Write-Host ''
+Write-Host "Dashboard: $dashboardUrl" -ForegroundColor DarkGray
 
 if (Test-PropertyValue $function 'httpsTrigger') {
-    Write-Output "Endpoint: $($function.uri)"
+    Write-Host "Endpoint: $($function.uri)" -ForegroundColor DarkGray
 }
